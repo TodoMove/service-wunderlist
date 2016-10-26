@@ -25,6 +25,7 @@ use TodoMove\Intercessor\Task;
  * Tags are hash tags in the tasks title
  *
  * Might have to have projects as tasks, and tasks as subtasks?  Otherwise we'll lose project repeats and such
+ * TODO: Consider projects as tasks and tasks as subtasks !!!
  */
 
 class Writer extends AbstractWriter
@@ -67,7 +68,7 @@ class Writer extends AbstractWriter
             $listIds[] = $project->meta('wunderlist-id');
         }
 
-        if (empty($listIds)) {
+        if (empty($listIds)) { // We can't create a folder with no lists (projects to us for the minute)
             return true;
         }
 
