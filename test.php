@@ -1,8 +1,8 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
 
-$clientId = '***REMOVED***';
-$token = '***REMOVED***';
+$clientId = '[client-id]';
+$token = '[token]';
 $writer = new TodoMove\Service\Wunderlist\Writer($clientId, $token);
 
 $project = new \TodoMove\Intercessor\Project('Mah project ' . rand(10090, 99999));
