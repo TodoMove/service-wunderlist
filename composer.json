@@ -1,0 +1,20 @@
+{
+    "name": "todomove/service-wunderlist",
+    "description": "Classes to read and write from Wunderlist utilising TodoMove's Intercessor classes",
+    "license": "MIT",
+    "keywords": ["wunderlist", "todomove"],
+    "authors": [
+        {
+            "name": "Ashley Hindle",
+            "email": "hey@ashleyhindle.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "TodoMove\\Service\\Wunderlist\\" : "./" }
+    },
+    "require": {
+        "php": ">= 5.5",
+        "todomove/intercessor": "*",
+        "guzzlehttp/guzzle": "~6.2"
+    }
+}
