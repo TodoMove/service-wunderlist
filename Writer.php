@@ -67,6 +67,10 @@ class Writer extends AbstractWriter
             $listIds[] = $project->meta('wunderlist-id');
         }
 
+        if (empty($listIds)) {
+            return true;
+        }
+
         $response = json_decode($this->client->post('folders', [
             'json' => [
                 'title' => $folder->name(),
