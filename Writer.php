@@ -134,6 +134,8 @@ class Writer extends AbstractWriter
 
         if ($task->due()) {
             $data['due_date'] = $task->due()->format('Y-m-d');
+        } elseif($task->defer()) {
+            $data['due_date'] = $task->defer()->format('Y-m-d');
         }
 
         if ($task->repeat()) {
