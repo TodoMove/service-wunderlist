@@ -22,12 +22,7 @@ use TodoMove\Intercessor\Task;
  * Projects = Lists
  * Tasks = Tasks
  * Tasks->notes() = Notes (task_id or list_id)
- * Tags not supported....hmmmm.... We're going to lose them, or we'll have to have folders as contexts?
  * Tags are hash tags in the tasks title
- *
- * Might have to have projects as tasks, and tasks as subtasks?  Otherwise we'll lose project repeats and such
- * TODO: Consider projects as tasks and tasks as subtasks !!!   Subtasks can't have repeats or anything.  Tough one.  People will lose their project repeats
- * by using projects as lists, but that's the best I can do for now I think
  */
 
 class Writer extends AbstractWriter
