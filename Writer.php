@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use TodoMove\Intercessor\Contracts\Service\Reader;
 use TodoMove\Intercessor\Folder;
 use TodoMove\Intercessor\Project;
+use TodoMove\Intercessor\Repeat;
 use TodoMove\Intercessor\Service\AbstractWriter;
 use TodoMove\Intercessor\Tag;
 use TodoMove\Intercessor\Task;
@@ -100,17 +101,48 @@ class Writer extends AbstractWriter
         return $response;
     }
 
+    private function convertRepeatType($type) {
+        switch($type) {
+            case Repeat::DAY:
+                $wunderlistType = 'day';
+                break;
+            case Repeat::WEEK:
+                $wunderlistType = 'week';
+                break;
+            case Repeat::MONTH:
+                $wunderlistType = 'month';
+                break;
+            case Repeat::YEAR:
+                $wunderlistType = 'year';
+                break;
+            default:
+                Throw new \Exception('Invalid repeat type');
+        }
+
+        return $wunderlistType;
+    }
+
     public function syncTask(Task $task)
     {
         // TODO: Check for errors
+        $data = [
+            'list_id' => $task->project()->meta('wunderlist-id'),
+            'title' => $task->title() . $this->taskTags($task),
+            'starred' => $task->flagged(),
+            //Add recurrence_type (day week month year) and count here
+        ];
+
+        if ($task->due()) {
+            $data['due_date'] = $task->due()->format('Y-m-d');
+        }
+
+        if ($task->repeat()) {
+            $data['recurrence_type'] = $this->convertRepeatType($task->repeat()->type());
+            $data['recurrence_count'] = $task->repeat()->interval();
+        }
 
         $response = json_decode($this->client->post('tasks', [
-            'json' => [
-                'list_id' => $task->project()->meta('wunderlist-id'),
-                'title' => $task->title() . $this->taskTags($task),
-                'starred' => $task->flagged(),
-                //Add recurrence_type (day week month year) and count here
-            ]
+            'json' => $data
         ])->getBody(), true);
 
         $task->meta('wunderlist-id', $response['id']);
