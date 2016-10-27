@@ -26,7 +26,8 @@ use TodoMove\Intercessor\Task;
  * Tags are hash tags in the tasks title
  *
  * Might have to have projects as tasks, and tasks as subtasks?  Otherwise we'll lose project repeats and such
- * TODO: Consider projects as tasks and tasks as subtasks !!!
+ * TODO: Consider projects as tasks and tasks as subtasks !!!   Subtasks can't have repeats or anything.  Tough one.  People will lose their project repeats
+ * by using projects as lists, but that's the best I can do for now I think
  */
 
 class Writer extends AbstractWriter
@@ -129,7 +130,7 @@ class Writer extends AbstractWriter
             'list_id' => $task->project()->meta('wunderlist-id'),
             'title' => $task->title() . $this->taskTags($task),
             'starred' => $task->flagged(),
-            //Add recurrence_type (day week month year) and count here
+            'completed' => $task->completed(),
         ];
 
         if ($task->due()) {
