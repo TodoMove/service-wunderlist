@@ -137,10 +137,10 @@ class Writer extends AbstractWriter
         // If this task repeats, or its parent project repeats, we'll add the info
         if ($task->repeat()) {
             $data['recurrence_type'] = $this->convertRepeatType($task->repeat()->type());
-            $data['recurrence_count'] = $task->repeat()->interval();
+            $data['recurrence_count'] = $task->repeat()->interval() ?: 1;
         } elseif ($task->project()->repeat()) {
             $data['recurrence_type'] = $this->convertRepeatType($task->project()->repeat()->type());
-            $data['recurrence_count'] = $task->project()->repeat()->interval();
+            $data['recurrence_count'] = $task->project()->repeat()->interval() ?: 1;
         }
 
         $response = json_decode($this->client->post('tasks', [
