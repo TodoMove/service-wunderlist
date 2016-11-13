@@ -149,7 +149,7 @@ class Writer extends AbstractWriter
             ])->getBody(), true);
         } catch (\Exception $e) {
             error_log('Failed to add Wunderlist task: ' . $task . ': ' . $e->getMessage());
-            throw new Exception('Failed to add task: ' . $task . ': ' . $e->getMessage());
+            throw new \Exception('Failed to add task: ' . $task . ': ' . $e->getMessage());
         }
 
         $task->meta('wunderlist-id', $response['id']);
