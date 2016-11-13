@@ -1,8 +1,10 @@
 <?php
+use TodoMove\Intercessor\Repeat;
+
 require __DIR__ . '/vendor/autoload.php';
 
-$clientId = '[client-id]';
-$token = '[token]';
+$clientId = getenv('WUNDERLIST_CLIENTID');
+$token = getenv('WUNDERLIST_TOKEN');
 $writer = new TodoMove\Service\Wunderlist\Writer($clientId, $token);
 
 $project = new \TodoMove\Intercessor\Project('Mah project ' . rand(10090, 99999));
@@ -16,6 +18,11 @@ $tags->add(new \TodoMove\Intercessor\Tag('lowenergy'));
 $task = new \TodoMove\Intercessor\Task('Mah task ' . rand(10090, 99999));
 $task->notes('My notes, my notes, my notes are on fire')->flagged(true)->project($project2);
 $task->tags($tags);
+
+$repeat = new Repeat();
+$repeat->type(Repeat::WEEK);
+$repeat->interval(0);
+$task->repeat($repeat);
 
 $project2->task($task);
 

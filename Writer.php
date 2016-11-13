@@ -143,9 +143,14 @@ class Writer extends AbstractWriter
             $data['recurrence_count'] = $task->project()->repeat()->interval() ?: 1;
         }
 
-        $response = json_decode($this->client->post('tasks', [
-            'json' => $data
-        ])->getBody(), true);
+        try {
+            $response = json_decode($this->client->post('tasks', [
+                'json' => $data
+            ])->getBody(), true);
+        } catch (\Exception $e) {
+            error_log('Failed to add Wunderlist task: ' . var_export($task) . ': ' . $e->getMessage());
+            throw new Exception('Failed to add task: ' . var_export($task));
+        }
 
         $task->meta('wunderlist-id', $response['id']);
 
